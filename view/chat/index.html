@@ -1,0 +1,27 @@
+{{define "/chat/index"}}
+<!DOCTYPE html>
+<html>
+<head>
+<!--js include-->
+{{template "/chat/head"}}
+</head>
+<body>
+<!--底部菜单-->
+{{template "/chat/tabmenu"}}
+<header class="mui-bar mui-bar-nav">
+</header>
+<div class="mui-content" id="pageapp">
+    <!--联系人-->
+    {{template "/chat/concat"}}
+    <!--群聊-->
+    {{template "/chat/group"}}
+    <!--个人中心-->
+    {{template "/chat/profile"}}
+    <!--聊天主界面-->
+    {{template "/chat/main"}}
+
+</div>
+</body>
+</html>
+{{template "/chat/foot"}}
+{{end}}
