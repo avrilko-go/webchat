@@ -2,6 +2,38 @@
 
 
 [[projects]]
+  digest = "1:850c49ca338a10fec2cb9e78f793043ed23965489d09e30bcc19fe29719da313"
+  name = "github.com/go-sql-driver/mysql"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "a0583e0143b1624142adab07e0e97fe106d99561"
+  version = "v1.3.0"
+
+[[projects]]
+  digest = "1:43c0f7d28e1d4359041ef2d2ed2e37f599a6c623b1c59aac0d04da2fda29bbb3"
+  name = "github.com/go-xorm/builder"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "1d658d7596c25394aab557ef5b50ef35bf706384"
+  version = "v0.3.4"
+
+[[projects]]
+  digest = "1:04021679f3d7777dc38fdc8760ead2b09dc7bf7ae1077ad415d11f68495bd74e"
+  name = "github.com/go-xorm/core"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "ccc80c1adf1f6172bbc548877f50a1163041a40a"
+  version = "v0.6.2"
+
+[[projects]]
+  digest = "1:4f01359acf1d4bc0aade06dcfca6f7687516f54fbf70b467fe90057c614647f5"
+  name = "github.com/go-xorm/xorm"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "1f39c590c64924f358c0d89016ac9b2bb84e9125"
+  version = "v0.7.1"
+
+[[projects]]
   digest = "1:f97285a3b0a496dcf8801072622230d513f69175665d94de60eb042d03387f6c"
   name = "github.com/julienschmidt/httprouter"
   packages = ["."]
@@ -12,6 +44,10 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  input-imports = ["github.com/julienschmidt/httprouter"]
+  input-imports = [
+    "github.com/go-sql-driver/mysql",
+    "github.com/go-xorm/xorm",
+    "github.com/julienschmidt/httprouter",
+  ]
   solver-name = "gps-cdcl"
   solver-version = 1
