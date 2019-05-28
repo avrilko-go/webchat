@@ -22,7 +22,7 @@ func registerView(router *httprouter.Router)  {
 	}
 	for _,v := range tpl.Templates() {
 		tplName := v.Name()
-		if strings.Contains(tplName, "/") {
+		if strings.HasPrefix(tplName, "/") {
 			router.GET(tplName, func(writer http.ResponseWriter, request *http.Request, params httprouter.Params) {
 				err = v.ExecuteTemplate(writer,tplName,nil)
 				if err != nil {
