@@ -26,3 +26,11 @@ func SendHttpResponse(w http.ResponseWriter,code int, data interface{}, msg stri
 	}
 	w.Write(json)
 }
+
+func Success(w http.ResponseWriter,data interface{},msg string)  {
+	SendHttpResponse(w,200,data,msg)
+}
+
+func Fail(w http.ResponseWriter,msg string)  {
+	SendHttpResponse(w,201,nil,msg)
+}

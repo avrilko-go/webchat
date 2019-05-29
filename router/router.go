@@ -6,12 +6,14 @@ import (
 	"log"
 	"net/http"
 	"strings"
+	"webchat/app/controller"
 )
 
 func RegisterRouter() *httprouter.Router {
 	router := httprouter.New()
 	router.ServeFiles("/asset/*filepath",http.Dir("./asset"))
 	registerView(router)
+	registerLogic(router)
 	return router
 }
 
@@ -31,6 +33,9 @@ func registerView(router *httprouter.Router)  {
 			})
 		}
 	}
+}
 
+func registerLogic(router *httprouter.Router)  {
+	router.POST("/user/register",controller.UserRegister)
 }
 

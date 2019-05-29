@@ -1,9 +1,12 @@
 package service
 
 import (
-	"webchat/app/model"
 	"errors"
+	"fmt"
+	"math/rand"
 	"time"
+	"webchat/app/model"
+	"webchat/util"
 )
 
 type UserService struct {
@@ -15,7 +18,7 @@ type UserService struct {
  */
 func (s *UserService)Register(mobile, password, nickname, avatar string, sex int8) (model.User, error) {
 	user := model.User{}
-	_,err :=Db.Where("Mobile",mobile).Get(&user)
+	_,err :=Db.Where("Mobile=?",mobile).Get(&user)
 	if  err != nil {
 		return user, err
 	}
@@ -27,12 +30,14 @@ func (s *UserService)Register(mobile, password, nickname, avatar string, sex int
 	user.Avatar = avatar
 	user.Sex = sex
 	user.CreateTime = time.Now().Format("2006-01-02 15:04:05")
+	user.Salt = fmt.Sprintf("%06d",rand.Int31n(10000))
+	user.Password = util.MakePassword(password,user.Salt)
+	user.Token = fmt.Sprintf("%08d",rand.Int31())
 
-	id ,err :=Db.Insert(user)
+	_ ,err =Db.InsertOne(&user)
 	if err != nil {
 		return user, errors.New("添加用户失败")
 	}
-	user.UserId = int(id)
 
 	return user,nil
 }
