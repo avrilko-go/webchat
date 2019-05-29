@@ -22,7 +22,7 @@ type User struct {
 	Sex int8 `xorm:"tinyint(1) not null default 1 comment('性别 1为男 2为女 3为未知')" json:"sex" form:"sex"`
 	NickName string `xorm:"varchar(20) not null default '' comment('昵称')" json:"nick_name" form:"nick_name"`
 	Salt string `xorm:"varchar(10) not null default '' comment('密码加密字符串')" json:"salt" form:"salt"`
-	Online int8 `xorm:"tinyint(1) not null default 1 comment('是否在线 1为在线 2为离线')" json:"online" form:"online"`
+	Online int8 `xorm:"tinyint(1) not null default 2 comment('是否在线 1为在线 2为离线')" json:"online" form:"online"`
 	Token string `xorm:"varchar(40) not null default '' comment('客户端鉴权唯一凭证')" json:"token" form:"token"`
 	Memo string `xorm:"varchar(140) not null default '' comment('暂时不知道')" json:"memo" form:"memo"`
 	CreateTime string `xorm:"datetime comment('创建时间')" json:"create_time" form:"create_time"`
