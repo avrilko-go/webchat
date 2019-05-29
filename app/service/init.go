@@ -1,12 +1,10 @@
-package model
+package service
 
 import (
 	"github.com/go-xorm/core"
 	"github.com/go-xorm/xorm"
-)
-import (
-	_ "github.com/go-sql-driver/mysql"
 	"log"
+	"webchat/app/model"
 )
 
 var Db *xorm.Engine
@@ -20,5 +18,5 @@ func init() {
 	Db.SetMapper(core.SameMapper{})
 	Db.ShowSQL(true)
 	Db.SetMaxOpenConns(2)
-	Db.Sync2(new(User))
+	Db.Sync2(new(model.User))
 }
