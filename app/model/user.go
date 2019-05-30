@@ -1,16 +1,16 @@
 package model
 
 //性别定义
-var (
-	SexMan = 1 // 男
-	SexWoMan = 2 // 女
-	SexUnKnown =  3 // 未知
+const (
+	SEX_MAN = 1 // 男
+	SEX_WOMAN = 2 // 女
+	SWX_UN_KNOWN =  3 // 未知
 )
 
 // 在线状态定义
-var (
-	Online = 1 // 在线
-	UnOnline = 2 // 离线
+const (
+	ONLINE = 1 // 在线
+	UN_ONLINE = 2 // 离线
 )
 
 

@@ -17,7 +17,7 @@
         </div>
         <div class="mui-input-row">
             <label>密码</label>
-            <input v-model="user.passwd" placeholder="请输入密码"  type="password" class="mui-input-clear mui-input" >
+            <input v-model="user.password" placeholder="请输入密码"  type="password" class="mui-input-clear mui-input" >
         </div>
     </form>
     <div class="mui-content-padded">
@@ -37,7 +37,7 @@
             return {
                 user:{
                     mobile:"",
-                    passwd:""
+                    password:""
                 }
             }
         },
@@ -50,14 +50,13 @@
                 //网络请求
                 //封装了promis
                 util.post("user/login",this.user).then(res=>{
-                    console.log(res)
-                    if(res.code!=0){
+                    if(res.code!=200){
                         mui.toast(res.msg)
                     }else{
-                        var url = "/chat/index?id="+res.data.id
+                        var url = "/chat/index?id="+res.data.user_id
                                 +"&token="+res.data.token
                         userInfo(res.data)
-                        userId(res.data.id)
+                        userId(res.data.user_id)
                         location.href= url
                         //mui.alert(url)
                     }

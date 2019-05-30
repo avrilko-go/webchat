@@ -8,6 +8,9 @@ import (
 	"webchat/app/service"
 )
 
+/**
+注册控制器
+ */
 func UserRegister(w http.ResponseWriter, r *http.Request, p httprouter.Params)  {
 	r.ParseForm()
 	password := r.Form.Get("password")
@@ -23,7 +26,22 @@ func UserRegister(w http.ResponseWriter, r *http.Request, p httprouter.Params)  
 	} else {
 		format.Success(w,user,"")
 	}
-
-
 }
+
+/**
+登录控制器
+ */
+func UserLogin(w http.ResponseWriter, r *http.Request, p httprouter.Params)  {
+	r.ParseForm()
+	password := r.Form.Get("password")
+	mobile := r.Form.Get("mobile")
+	userService :=service.UserService{}
+	user,err :=userService.Login(mobile,password)
+	if err != nil {
+		format.Fail(w,err.Error())
+	} else {
+		format.Success(w,user,"")
+	}
+}
+
 

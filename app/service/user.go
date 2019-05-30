@@ -41,3 +41,28 @@ func (s *UserService)Register(mobile, password, nickname, avatar string, sex int
 
 	return user,nil
 }
+
+/**
+登录逻辑
+ */
+func (s *UserService)Login(mobile,password string)(model.User, error)  {
+	user := model.User{}
+	//查询数据
+	_,err := Db.Where("Mobile=?",mobile).Get(&user)
+	if err != nil {
+		return user,err
+	}
+	if user.UserId < 1 {
+		return user,errors.New("该用户不存在")
+	}
+	// 验证密码
+	if !util.ValidatePassword(password,user.Salt,user.Password) {
+		return user,errors.New("密码不正确")
+	}
+	// 刷新token
+	token := util.MD5Encode(fmt.Sprintf("%d",time.Now().Unix()))
+	user.Token = token
+	Db.Id(user.UserId).Cols("Token").Update(&user)
+
+	return user, nil
+}

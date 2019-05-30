@@ -37,5 +37,6 @@ func registerView(router *httprouter.Router)  {
 
 func registerLogic(router *httprouter.Router)  {
 	router.POST("/user/register",controller.UserRegister)
+	router.POST("/user/login",controller.UserLogin)
 }
 

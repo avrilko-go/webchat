@@ -20,4 +20,6 @@ func init() {
 	Db.ShowSQL(true)
 	Db.SetMaxOpenConns(2)
 	Db.Sync2(new(model.User))
+	Db.Sync2(new(model.Group))
+	Db.Sync2(new(model.Contact))
 }
