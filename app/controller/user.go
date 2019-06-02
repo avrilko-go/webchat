@@ -3,24 +3,29 @@ package controller
 import (
 	"github.com/julienschmidt/httprouter"
 	"net/http"
-	"strconv"
 	"webchat/app/format"
+	"webchat/app/model"
 	"webchat/app/service"
+	"webchat/util"
 )
 
 /**
 注册控制器
  */
 func UserRegister(w http.ResponseWriter, r *http.Request, p httprouter.Params)  {
-	r.ParseForm()
-	password := r.Form.Get("password")
-	nickName := r.Form.Get("nick_name")
-	sex := r.Form.Get("sex")
-	sexint, _ := strconv.Atoi(sex)
-	mobile := r.Form.Get("mobile")
+	postUser := &model.User{}
+	err := util.Bind(r, postUser)
+	if err != nil {
+		format.Fail(w,err.Error())
+	}
+
+	password := postUser.Password
+	nickName := postUser.NickName
+	sex := postUser.Sex
+	mobile := postUser.Mobile
 	avatar := ""
 	userService :=service.UserService{}
-	user,err := userService.Register(mobile,password,nickName,avatar,int8(sexint))
+	user,err := userService.Register(mobile,password,nickName,avatar,sex)
 	if err != nil {
 		format.Fail(w,err.Error())
 	} else {
@@ -32,9 +37,14 @@ func UserRegister(w http.ResponseWriter, r *http.Request, p httprouter.Params)  
 登录控制器
  */
 func UserLogin(w http.ResponseWriter, r *http.Request, p httprouter.Params)  {
-	r.ParseForm()
-	password := r.Form.Get("password")
-	mobile := r.Form.Get("mobile")
+	postUser := &model.User{}
+	err := util.Bind(r,postUser)
+	if err != nil {
+		format.Fail(w,err.Error())
+	}
+
+	password := postUser.Password
+	mobile := postUser.Mobile
 	userService :=service.UserService{}
 	user,err :=userService.Login(mobile,password)
 	if err != nil {
