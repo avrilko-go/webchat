@@ -50,3 +50,36 @@ func LoadGroup(w http.ResponseWriter, r *http.Request, p httprouter.Params)  {
 	format.SuccessList(w,groups, len(groups))
 	return
 }
+
+func CreateGroup(w http.ResponseWriter, r *http.Request, p httprouter.Params)  {
+	group := model.Group{}
+	err := util.Bind(r, &group)
+	if err != nil {
+		format.Fail(w, err.Error())
+		return
+	}
+	groupResult,err := contactService.CreateGroup(group)
+	if err != nil {
+		format.Fail(w,err.Error())
+	} else {
+		format.Success(w,groupResult,"创建群成功")
+		return
+	}
+}
+
+func JoinGroup(w http.ResponseWriter, r *http.Request, p httprouter.Params)  {
+	group := model.Group{}
+	err := util.Bind(r, &group)
+	if err != nil {
+		format.Fail(w, err.Error())
+		return
+	}
+	groupResult,err := contactService.JoinGroup(group.UserId, group.GroupId)
+	if err != nil {
+		format.Fail(w,err.Error())
+	} else {
+		format.Success(w,groupResult,"加入群成功")
+		return
+	}
+}
+

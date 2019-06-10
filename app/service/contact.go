@@ -93,3 +93,57 @@ func (c *ContactService)LoadGroup(userId int) ([]model.Group) {
 
 	return group
 }
+
+func (c *ContactService)CreateGroup(group model.Group) (model.Group, error) {
+	// 查询符合条件的所有记录
+	if group.UserId < 1 {
+		return group, errors.New("用户id不能为空")
+	}
+	if group.Name == "" {
+		return group, errors.New("群名称不能为空")
+	}
+	userOwnGroup := model.Group{
+		UserId:group.UserId,
+	}
+	count,_ := Db.Count(&userOwnGroup)
+	if count > 5 {
+		return group, errors.New("每个人最多只能创建5个群")
+	}
+	session := Db.NewSession()
+	session.Begin()
+	// 先插入创建的数据
+	_,err := session.InsertOne(&group)
+	if err != nil {
+		session.Rollback()
+		return group, err
+	}
+	// 再将自己加入到群里面
+	contact := model.Contact{
+		UserId:group.UserId,
+		AddId : group.GroupId,
+		Type : model.CONCAT_TYPE_GROUP,
+		CreateTime:time.Now().Format("2006-01-02 15:04:05"),
+	}
+	_,err = session.InsertOne(&contact)
+	if err != nil {
+		session.Rollback()
+		return group, err
+	}
+	session.Commit()
+	return group, nil
+}
+
+func (c *ContactService)JoinGroup(userId, GroupId int) (model.Contact, error) {
+	contact := model.Contact{
+		UserId:userId,
+		AddId:GroupId,
+		Type:model.CONCAT_TYPE_GROUP,
+		CreateTime:time.Now().Format("2006-01-02 15:04:05"),
+	}
+	_, err := Db.InsertOne(&contact)
+	if err != nil {
+		return contact, err
+	}
+
+	return contact, nil
+}
