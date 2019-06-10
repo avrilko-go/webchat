@@ -53,3 +53,43 @@ func (c *ContactService)AddFriend(userId, addId int ) error  {
 	}
 	return nil
 }
+
+func (c *ContactService)LoadFriend(userId int) ([]model.User) {
+	// 查询符合条件的所有记录
+	contacts := make([]model.Contact, 0)
+	user := make([]model.User, 0)
+	userIds := make([]int,0)
+	err := Db.Where("UserId = ? and Type = ?", userId, model.CONCAT_TYPE_USER).Find(&contacts)
+	if err != nil {
+		return user
+	}
+	if len(contacts) < 1 {
+		return user
+	}
+	for _,contact := range contacts {
+		userIds = append(userIds, contact.AddId)
+	}
+	Db.In("UserId", userIds).Find(&user)
+
+	return user
+}
+
+func (c *ContactService)LoadGroup(userId int) ([]model.Group) {
+	// 查询符合条件的所有记录
+	contacts := make([]model.Contact, 0)
+	group := make([]model.Group, 0)
+	groupIds := make([]int,0)
+	err := Db.Where("UserId = ? and Type = ?", userId, model.CONCAT_TYPE_GROUP).Find(&contacts)
+	if err != nil {
+		return group
+	}
+	if len(contacts) < 1 {
+		return group
+	}
+	for _,contact := range contacts {
+		groupIds = append(groupIds, contact.AddId)
+	}
+	Db.In("GroupId", groupIds).Find(&group)
+
+	return group
+}

@@ -39,5 +39,7 @@ func registerLogic(router *httprouter.Router)  {
 	router.POST("/user/register",controller.UserRegister)
 	router.POST("/user/login",controller.UserLogin)
 	router.POST("/contact/addFriend",controller.AddFriend)
+	router.POST("/contact/loadFriend",controller.LoadFriend)
+	router.POST("/contact/loadGroup",controller.LoadGroup)
 }
 

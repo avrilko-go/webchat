@@ -10,6 +10,8 @@ type HttpResponse struct {
 	Code int `json:"code"`
 	Msg string `json:"msg"`
 	Data interface{} `json:"data,omitempty"`
+	Rows interface{} `json:"rows,omitempty"`
+	Total interface{} `json:"total,omitempty"`
 }
 
 func SendHttpResponse(w http.ResponseWriter,code int, data interface{}, msg string)  {
@@ -25,7 +27,6 @@ func SendHttpResponse(w http.ResponseWriter,code int, data interface{}, msg stri
 		log.Panicln(err.Error())
 	}
 	w.Write(json)
-	return
 }
 
 func Success(w http.ResponseWriter,data interface{},msg string)  {
@@ -34,4 +35,20 @@ func Success(w http.ResponseWriter,data interface{},msg string)  {
 
 func Fail(w http.ResponseWriter,msg string)  {
 	SendHttpResponse(w,201,nil,msg)
+}
+
+func SuccessList(w http.ResponseWriter, data interface{}, total interface{}) {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	h := HttpResponse{
+		Code:200,
+		Rows:data,
+		Total:total,
+	}
+
+	json, err := json2.Marshal(h)
+	if err != nil {
+		log.Panicln(err.Error())
+	}
+	w.Write(json)
 }
