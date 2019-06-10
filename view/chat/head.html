@@ -64,6 +64,26 @@
                 }
                 xhr.send(_data.join("&"));
             }
+
+   function gets(uri,data,fn){
+       var xhr = new XMLHttpRequest();
+       xhr.open("GET","http://localhost:8080"+"/"+uri, true);
+       // 添加http头，发送信息至服务器时内容编码类型
+       xhr.onreadystatechange = function() {
+           if (xhr.readyState == 4 && (xhr.status == 200 || xhr.status == 304)) {
+               fn.call(this, JSON.parse(xhr.responseText));
+           }
+       };
+       var _data=[];
+       if(!! userId()){
+           // data["userid"] = userId();
+       }
+       for(var i in data){
+           _data.push( i +"=" + encodeURI(data[i]));
+       }
+       xhr.send(_data.join("&"));
+   }
+
             function uploadfile(uri,dom,fn){
                 var xhr = new XMLHttpRequest();
                 xhr.open("POST","//"+location.host+"/"+uri, true);

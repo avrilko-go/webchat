@@ -12,7 +12,7 @@ var Db *xorm.Engine
 
 func init() {
 	var err error
-	Db, err = xorm.NewEngine("mysql", "root:123456@tcp(127.0.0.1:3304)/hb?charset=utf8")
+	Db, err = xorm.NewEngine("mysql", "root:123456@tcp(127.0.0.1:3306)/hb?charset=utf8")
 	if err != nil {
 		log.Fatal(err.Error())
 	}

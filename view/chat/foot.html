@@ -32,7 +32,7 @@ a{{define "/chat/foot"}}
                     title:"",
                     doutu:{
                         config:{
-                            "baseurl":"/asset/plugins/doutu/",
+                            "baseurl":"asset/plugins/doutu/",
                             "pkgids":["mkgif","emoj"]
                         },
                         packages:[],
@@ -196,18 +196,18 @@ a{{define "/chat/foot"}}
                         var res=[];
                         var config = this.doutu.config;
                         for(var i in config.pkgids){
-                            res[config.pkgids[i]]=(config.baseurl+"/"+config.pkgids[i]+"/info.json")
+                            res[config.pkgids[i]]=(config.baseurl+config.pkgids[i]+"/info.json")
                         }
                         var that = this;
                         for(var id in res){
                             //console.log("res[i]",id,res[id])
-                            post(res[id],{},function(pkginfo){
+                            gets(res[id],{},function(pkginfo){
                                 //console.log("post res[i]",id,res[id],pkginfo)
-                                var baseurl= config.baseurl+"/"+pkginfo.id+"/"
+                                var baseurl= config.baseurl+pkginfo.id
                                 for(var j in pkginfo.assets){
-                                    pkginfo.assets[j] = baseurl+pkginfo.assets[j];
+                                    pkginfo.assets[j] = "http://localhost:8080/"+baseurl+"/"+pkginfo.assets[j];
                                 }
-                                pkginfo.icon = baseurl + pkginfo.icon;
+                                pkginfo.icon = "http://localhost:8080/"+baseurl +"/"+ pkginfo.icon;
                                 that.doutu.packages.push(pkginfo)
                                 if(that.doutu.choosed.pkgid==pkginfo.id){
                                     that.doutu.choosed.assets=pkginfo.assets;
@@ -268,8 +268,8 @@ a{{define "/chat/foot"}}
                     singlemsg:function(user){
                         //console.log(user)
                         this.win = "single";
-                        this.title = "和"+user.nickname+"聊天中";
-                        this.msgcontext.dstid = parseInt(user.id);
+                        this.title = "和"+user.nick_name+"聊天中";
+                        this.msgcontext.dstid = parseInt(user.user_id);
                         this.msgcontext.cmd = 10;
                     },
                     groupmsg:function(group){
@@ -327,7 +327,7 @@ a{{define "/chat/foot"}}
                     },
                     loadfriends:function(){
                         var that = this;
-                        post("contact/loadfriend",{userid:userId()},function(res){
+                        post("contact/loadFriend",{user_id:userId()},function(res){
                             that.friends = res.rows ||[];
                             var usermap = this.usermap;
                             for(var i in res.rows){
@@ -339,7 +339,7 @@ a{{define "/chat/foot"}}
                     },
                     loadcommunitys:function(){
                         var that = this;
-                        post("contact/loadcommunity",{userid:userId()},function(res){
+                        post("contact/loadGroup",{user_id:userId()},function(res){
                             that.communitys = res.rows ||[];
                         })
                     },
