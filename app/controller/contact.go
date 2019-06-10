@@ -61,6 +61,7 @@ func CreateGroup(w http.ResponseWriter, r *http.Request, p httprouter.Params)  {
 	groupResult,err := contactService.CreateGroup(group)
 	if err != nil {
 		format.Fail(w,err.Error())
+		return
 	} else {
 		format.Success(w,groupResult,"创建群成功")
 		return
@@ -68,15 +69,16 @@ func CreateGroup(w http.ResponseWriter, r *http.Request, p httprouter.Params)  {
 }
 
 func JoinGroup(w http.ResponseWriter, r *http.Request, p httprouter.Params)  {
-	group := model.Group{}
-	err := util.Bind(r, &group)
+	contact := model.Contact{}
+	err := util.Bind(r, &contact)
 	if err != nil {
 		format.Fail(w, err.Error())
 		return
 	}
-	groupResult,err := contactService.JoinGroup(group.UserId, group.GroupId)
+	groupResult,err := contactService.JoinGroup(contact.UserId, contact.AddId)
 	if err != nil {
 		format.Fail(w,err.Error())
+		return
 	} else {
 		format.Success(w,groupResult,"加入群成功")
 		return
