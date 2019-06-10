@@ -28,8 +28,10 @@ func UserRegister(w http.ResponseWriter, r *http.Request, p httprouter.Params)  
 	user,err := userService.Register(mobile,password,nickName,avatar,sex)
 	if err != nil {
 		format.Fail(w,err.Error())
+		return
 	} else {
 		format.Success(w,user,"")
+		return
 	}
 }
 
@@ -41,6 +43,7 @@ func UserLogin(w http.ResponseWriter, r *http.Request, p httprouter.Params)  {
 	err := util.Bind(r,postUser)
 	if err != nil {
 		format.Fail(w,err.Error())
+		return
 	}
 
 	password := postUser.Password
@@ -49,8 +52,10 @@ func UserLogin(w http.ResponseWriter, r *http.Request, p httprouter.Params)  {
 	user,err :=userService.Login(mobile,password)
 	if err != nil {
 		format.Fail(w,err.Error())
+		return
 	} else {
 		format.Success(w,user,"")
+		return
 	}
 }
 

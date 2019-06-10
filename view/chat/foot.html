@@ -1,4 +1,4 @@
-{{define "/chat/foot"}}
+a{{define "/chat/foot"}}
 <script>
 
     function upload(dom){
@@ -362,8 +362,8 @@
                     },
                     _addfriend:function(dstobj){
                         var that = this
-                        post("contact/addfriend",{dstid:dstobj,userid: userId()},function(res){
-                            if(res.code==0){
+                        post("contact/addFriend",{add_id:dstobj,user_id: userId()},function(res){
+                            if(res.code==200){
                                 mui.toast("添加成功");
                                 that.loadfriends();
                             }else{

@@ -4,7 +4,7 @@ import (
 	json2 "encoding/json"
 	"log"
 	"net/http"
-)
+	)
 
 type HttpResponse struct {
 	Code int `json:"code"`
@@ -25,6 +25,7 @@ func SendHttpResponse(w http.ResponseWriter,code int, data interface{}, msg stri
 		log.Panicln(err.Error())
 	}
 	w.Write(json)
+	return
 }
 
 func Success(w http.ResponseWriter,data interface{},msg string)  {

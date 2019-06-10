@@ -7,8 +7,8 @@ import (
 
 func main() {
 	router := router2.RegisterRouter()
-	err := http.ListenAndServe(":8080", router)
+	err := http.ListenAndServe(":8081", router)
 	if err != nil {
-		panic("http服务启动失败")
+		panic(err.Error())
 	}
 }
