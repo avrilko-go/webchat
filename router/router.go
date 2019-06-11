@@ -43,5 +43,7 @@ func registerLogic(router *httprouter.Router)  {
 	router.POST("/contact/loadGroup",controller.LoadGroup)
 	router.POST("/contact/createGroup",controller.CreateGroup)
 	router.POST("/contact/joinGroup",controller.JoinGroup)
+	// WebSocket
+	router.POST("/chat",controller.Chat)
 }
 

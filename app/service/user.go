@@ -66,3 +66,18 @@ func (s *UserService)Login(mobile,password string)(model.User, error)  {
 
 	return user, nil
 }
+
+func (s *UserService) CheckToken(userId int, token string) bool {
+	user := model.User{
+		UserId:userId,
+	}
+	_,err := Db.Get(&user)
+	if err != nil {
+		return false
+	}
+	if token == user.Token {
+		return true
+	}
+	return false
+}
+
