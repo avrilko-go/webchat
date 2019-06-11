@@ -10,7 +10,7 @@ import (
 	"gopkg.in/fatih/set.v0"
 	"sync"
 	"encoding/json"
-)
+	)
 
 type Node struct {
 	Conn *websocket.Conn
@@ -50,11 +50,11 @@ func Chat(w http.ResponseWriter, r *http.Request, p httprouter.Params)  {
 	userId,_ := strconv.Atoi(id)
 	checkPass:= UserService.CheckToken(userId, token)
 	// 然后将http请求升级为WebSocket请求
-	conn, err :=websocket.Upgrader{
+	conn, err := (&websocket.Upgrader{
 		CheckOrigin: func(r *http.Request) bool {
 			return checkPass
 		},
-	}.Upgrade(w,r,nil)
+	}).Upgrade(w,r,nil)
 	if err != nil {
 		log.Println(err.Error())
 	}
@@ -75,9 +75,10 @@ func Chat(w http.ResponseWriter, r *http.Request, p httprouter.Params)  {
 	RwLock.Unlock() // 读写锁
 
 	// 开始处理发送逻辑
-	sendLogic(node)
+	go sendLogic(node)
 	// 处理接受逻辑
-	receiveLogic(node)
+	go receiveLogic(node)
+
 }
 
 func sendLogic(node *Node)  {
@@ -96,11 +97,12 @@ func sendLogic(node *Node)  {
 func receiveLogic(node *Node)  {
 	for {
 		_,data,err := node.Conn.ReadMessage()
+		log.Println(data)
 		if err!=nil{
 			log.Println(err.Error())
 			return
 		}
-		dispatch(data)
+		go dispatch(data)
 		log.Printf("[ws]<=%s\n",data)
 	}
 }
@@ -123,10 +125,7 @@ func dispatch(data []byte)  {
 			}
 		}
 	case CMD_HEART:
-		return
 	}
-
-
 }
 
 func sendMsg(userId int,data []byte) {
