@@ -147,3 +147,17 @@ func (c *ContactService)JoinGroup(userId, GroupId int) (model.Contact, error) {
 
 	return contact, nil
 }
+
+func (c *ContactService)GetGroupIds(userId int) []int {
+	groupIds := make([]int,0)
+	contacts := make([]model.Contact,0)
+	err := Db.Where("UserId = ? and Type = ?", userId, model.CONCAT_TYPE_GROUP).Find(&contacts)
+	if err != nil || len(contacts) < 1 {
+		return groupIds
+	}
+	for _,item := range contacts {
+		groupIds = append(groupIds, item.AddId)
+	}
+
+	return groupIds
+}
