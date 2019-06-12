@@ -41,9 +41,9 @@ a{{define "/chat/foot"}}
                     msglist:[],
 
                     msgcontext:{
-                        dstid:10,
                         cmd:10,
-                        userid:userId()
+                        user_id :userId(),
+                        add_id:0
                     },
                     plugins:[
                         {
@@ -223,7 +223,7 @@ a{{define "/chat/foot"}}
                         var data={
 
                         }
-                        data.ismine = userId()==msg.userid;
+                        data.ismine = userId()==msg.user_id;
                         //console.log(data.ismine,userId(),msg.userid)
                         data.user = user;
                         data.msg = msg;
@@ -269,7 +269,7 @@ a{{define "/chat/foot"}}
                         //console.log(user)
                         this.win = "single";
                         this.title = "和"+user.nick_name+"聊天中";
-                        this.msgcontext.dstid = parseInt(user.user_id);
+                        this.msgcontext.add_id = parseInt(user.user_id);
                         this.msgcontext.cmd = 10;
                     },
                     groupmsg:function(group){
